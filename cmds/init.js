@@ -1,4 +1,5 @@
 var exec = require("child_process").exec;
+var path = require("path");
 var possibleHooks = require("../lib/possible-hooks");
 
 module.exports = function(repo, cb){
@@ -11,6 +12,9 @@ module.exports = function(repo, cb){
 							copyHookfile(repo, cb, function(){
 								cb();
 							});
+						}
+						else{
+							cb();
 						}
 					});
 				});
@@ -63,10 +67,11 @@ function hasInstallGitHooks(repo, onError, onNext){
 			done();
 		}, function(yep){
 			if(yep && error === null){
+				console.log("Found hook:", hook);
 				error = new Error("You must not have custom git hooks before installing or this will override them");
 			}
 			done();
-		})
+		});
 	});
 
 	function done(){
@@ -83,13 +88,42 @@ function hasInstallGitHooks(repo, onError, onNext){
 }
 
 function copyHooks(repo, onError, onNext){
-	//TODO: this
+	copyHook(0);
+	function copyHook(i){
+		if(i==possibleHooks.length){
+			onNext();
+		}
+		else{
+			var hook = possibleHooks[i];
+			var baseFile = possibleHooks.baseFilesByHookName[hook];
+			var repoFile = path.join(repo, ".git/hooks", hook);
+			exec("cp "+baseFile+" "+repoFile, function(err, stdout, stderr){
+				if(err){
+					onError(err);
+				}
+				else{
+					copyHook(i+1);
+				}
+			});
+		}
+	}
 }
 
 function checkHookfile(repo, onError, onNext){
-
+	isPathThere(repo+"/Hookfile", onError, function(yep){
+		onNext(!yep);
+	});
 }
 
 function copyHookfile(repo, onError, onNext){
-
+	var baseFile = path.join(__dirname, "../base-files/Hookfile");
+	var repoFile = path.join(repo, "Hookfile");
+	exec("cp "+baseFile+" "+repoFile, function(err, stdout, stderr){
+		if(err){
+			onError(err);
+		}
+		else{
+			onNext();
+		}
+	});
 }

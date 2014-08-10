@@ -1,3 +1,5 @@
+require("should");
+
 global.TEST_SUITE = null;
 
 beforeEach(function(done){
