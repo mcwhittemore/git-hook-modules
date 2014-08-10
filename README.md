@@ -22,6 +22,19 @@ This will run the same process as `git hooks init`. It will also add `git-hook-m
 
 Add an executable command to the `Hookfile` under the hook you want to trigger the script. The order of these scripts determins the order that they are run when the hook is trigged by git. On [hooks that can be stopped by a non-zero exit]() a non-zero stop will exicution stream.
 
+```
+post-commit:
+    echo "first command of a post-commit hook"
+    echo "secound command of a post-commit hook"
+    node third-command.js
+
+pre-commit:
+	python it-works-with.py
+
+post-merge:
+	go run it-works-with.go
+```
+
 ## More on the CLI Tool
 
 * `git hooks [hook-name] --ORDER`
