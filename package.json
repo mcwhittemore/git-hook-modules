@@ -1,0 +1,35 @@
+{
+  "name": "git-hook-modules",
+  "version": "0.0.0",
+  "description": "a simple git hook module system",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "should": "~4.0.4",
+    "mocha": "~1.21.4",
+    "tmp": "0.0.24"
+  },
+  "scripts": {
+    "test": "mocha",
+    "install": "node ./install.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mcwhittemore/git-hook-modules.git"
+  },
+  "keywords": [
+    "git",
+    "hooks",
+    "pull",
+    "merge",
+    "commit",
+    "pre-commit",
+    "post-commit"
+  ],
+  "author": "Matthew Chase Whittemore",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mcwhittemore/git-hook-modules/issues"
+  },
+  "homepage": "https://github.com/mcwhittemore/git-hook-modules"
+}
