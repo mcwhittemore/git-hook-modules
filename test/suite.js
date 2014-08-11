@@ -82,7 +82,13 @@ var gitApi = {
 	add: function(path, cb){
 		this.run("git add "+path, cb);
 	},
-	commit: function(msg, cb){
-		this.run("git commit -m "+msg, cb);
+	commit: function(end, cb){
+		this.run("git commit "+end, cb);
+	},
+	checkout: function(end, cb){
+		this.run("git checkout "+end, cb);
+	},
+	rebase: function(end, cb){
+		this.run("git rebase "+end, cb);
 	}
 }

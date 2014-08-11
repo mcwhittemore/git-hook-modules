@@ -33,7 +33,7 @@ describe("git commit, when GHM is in use,", function(){
 							done(err);
 						}
 						else{
-							TEST_SUITE.git.commit("testing", function(err, stdout, stderr){
+							TEST_SUITE.git.commit("-m testing", function(err, stdout, stderr){
 								if(err){
 									done(err);
 								}
