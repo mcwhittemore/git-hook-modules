@@ -1,0 +1,53 @@
+applypatch-msg:
+
+
+pre-applypatch:
+
+
+post-applypatch:
+
+
+pre-commit:
+	echo 'Oh Yea! Lets Get This Commit Started!'
+
+
+prepare-commit-msg:
+	echo 'What should the default commit message be?'
+
+
+commit-msg:
+	echo 'I dont know, what should the default commit message be?'
+
+post-commit:
+	echo '+1 to your daily commits!'
+
+
+pre-rebase:
+
+
+post-checkout:
+	echo 'You just checked out'
+
+post-merge:
+
+
+pre-receive:
+
+
+update:
+
+
+post-receive:
+
+
+post-update:
+
+
+pre-auto-gc:
+
+
+post-rewrite:
+
+
+pre-push:
+
