@@ -26,6 +26,9 @@
     "pre-commit",
     "post-commit"
   ],
+  "bin": {
+    "git-hooks": "./bin/git-hooks"
+  },
   "author": "Matthew Chase Whittemore",
   "license": "MIT",
   "bugs": {
