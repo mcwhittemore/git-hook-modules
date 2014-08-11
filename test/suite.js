@@ -8,7 +8,7 @@ var path = require("path");
 
 var hooksInit = require("../cmds/init");
 
-var HOOK_CMD = "node "+path.join(__dirname, "../bin/git-hook run");
+var HOOK_CMD = "node "+path.join(__dirname, "../bin/git-hooks run");
 
 module.exports = function(cb){
 
