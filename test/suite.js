@@ -8,6 +8,8 @@ var path = require("path");
 
 var hooksInit = require("../cmds/init");
 
+var HOOK_CMD = "node "+path.join(__dirname, "../bin/git-hook run");
+
 module.exports = function(cb){
 
 	tmp.dir({unsafeCleanup:true}, function(err, path){
@@ -37,6 +39,8 @@ module.exports = function(cb){
 				api.hooks[hooks[i]] = hooksApi[hooks[i]].bind(api);
 			}
 
+			api.hooks.init.cmd = HOOK_CMD;
+
 			cb(null, api);
 		}
 	});
@@ -46,7 +50,7 @@ module.exports = function(cb){
 var rawApi = {
 	run: function(cmd, cb){
 		exec("cd "+this.path+" && "+cmd, function(err, stdout, stderr){
-			cb(err, stdout);
+			cb(err, stdout, stderr);
 		});
 	},
 	addHookfile: function(cb){
@@ -67,7 +71,7 @@ var rawApi = {
 
 var hooksApi = {
 	init: function(cb){
-		hooksInit(this.path, cb);
+		hooksInit(this.path, HOOK_CMD, cb);
 	}
 }
 

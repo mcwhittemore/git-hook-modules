@@ -1,12 +1,13 @@
+var fs = require("fs");
 var exec = require("child_process").exec;
 var path = require("path");
 var possibleHooks = require("../lib/possible-hooks");
 
-module.exports = function(repo, cb){
+module.exports = function(repo, cmd, cb){
 	hasDotGit(repo, cb, function(){
 		hasDotGitHooks(repo, cb, function(){
 			hasInstallGitHooks(repo, cb, function(){
-				copyHooks(repo, cb, function(){
+				setupHooks(repo, cmd, cb, function(){
 					checkHookfile(repo, cb, function(isNotCreated){
 						if(isNotCreated){
 							copyHookfile(repo, cb, function(){
@@ -87,26 +88,38 @@ function hasInstallGitHooks(repo, onError, onNext){
 	}
 }
 
-function copyHooks(repo, onError, onNext){
-	copyHook(0);
-	function copyHook(i){
-		if(i==possibleHooks.length){
-			onNext();
-		}
-		else{
-			var hook = possibleHooks[i];
-			var baseFile = possibleHooks.baseFilesByHookName[hook];
-			var repoFile = path.join(repo, ".git/hooks", hook);
-			exec("cp "+baseFile+" "+repoFile, function(err, stdout, stderr){
-				if(err){
-					onError(err);
+function setupHooks(repo, cmd, onError, onNext){
+	//var cmd = "echo";
+
+	var cnt = 0;
+	var error = undefined;
+	possibleHooks.forEach(function(hook){
+		var filePath = path.join(repo, ".git/hooks", hook);
+		var content = cmd+" "+hook;
+		setupHook(filePath, content, function(err){
+			cnt++;
+			error = error || err;
+			if(cnt==possibleHooks.length){
+				if(error){
+					onError(error);
 				}
 				else{
-					copyHook(i+1);
+					onNext();
 				}
-			});
+			}
+		});
+	});
+}
+
+function setupHook(filePath, content, cb){
+	fs.writeFile(filePath, content, {encoding:"utf8"}, function(err){
+		if(err){
+			cb(err);
 		}
-	}
+		else{
+			exec("chmod +x "+filePath, cb);
+		}
+	});
 }
 
 function checkHookfile(repo, onError, onNext){

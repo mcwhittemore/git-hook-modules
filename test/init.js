@@ -80,23 +80,24 @@ describe("git hooks init", function(){
 
 			var possibleHooks = require("../lib/possible-hooks");
 
-			var checkFiles = function(baseFile, repoFileName){
-
-				var repoFileContent = TEST_SUITE.getFileContents(repoFileName);
-				
-				var baseFileContent = fs.readFileSync(baseFile, {encoding:"utf8"});
-				repoFileContent.should.equal(baseFileContent);
-			}
-
 			it("create a Hookfile", function(){
+				var repoFileContent = TEST_SUITE.getFileContents("Hookfile");
+
 				var baseFile = path.join(__dirname, "../base-files/Hookfile");
-				checkFiles(baseFile, "Hookfile");
+				var baseFileContent = fs.readFileSync(baseFile, {encoding:"utf8"});
+
+				repoFileContent.should.equal(baseFileContent);
 			});
 
 			var checkHook = function(hook){
-				var baseFile = possibleHooks.baseFilesByHookName[hook];
+				
 				var repoFileName = ".git/hooks/"+hook;
-				checkFiles(baseFile, repoFileName);
+				var repoFileContent = TEST_SUITE.getFileContents(repoFileName);
+				
+				var cmd = TEST_SUITE.hooks.init.cmd+" "+hook;
+
+				repoFileContent.should.equal(cmd);
+
 			}
 
 			it("setup the applypatch-msg hook", function(){

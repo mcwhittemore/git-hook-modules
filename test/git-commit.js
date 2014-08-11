@@ -6,7 +6,14 @@ describe("git commit, when GHM is in use,", function(){
 				done(err);
 			}
 			else{
-				TEST_SUITE.hooks.init(done);
+				TEST_SUITE.addHookfile(function(err){
+					if(err){
+						done(err);
+					}
+					else{
+						TEST_SUITE.hooks.init(done);
+					}
+				});
 			}
 		});
 	});
@@ -26,12 +33,12 @@ describe("git commit, when GHM is in use,", function(){
 							done(err);
 						}
 						else{
-							TEST_SUITE.git.commit("testing", function(err, stdout){
+							TEST_SUITE.git.commit("testing", function(err, stdout, stderr){
 								if(err){
 									done(err);
 								}
 								else{
-									commitOutput = stdout;
+									commitOutput = stderr;
 									done();
 								}
 							});
@@ -48,11 +55,19 @@ describe("git commit, when GHM is in use,", function(){
 		}
 
 		it("should run pre-commit", function(){
-			checkForHookMessage("pre-commit")
+			checkForHookMessage("pre-commit");
 		});
-		
+
 		it("should run post-commit", function(){
-			checkForHookMessage("post-commit")
+			checkForHookMessage("post-commit");
+		});
+
+		it("should run prepare-commit-msg", function(){
+			checkForHookMessage("prepare-commit-msg");
+		});
+
+		it("should run commit-msg", function(){
+			checkForHookMessage("commit-msg");
 		});
 
 	});
