@@ -50,6 +50,10 @@ module.exports = function(cb){
 var rawApi = {
 	run: function(cmd, cb){
 		exec("cd "+this.path+" && "+cmd, function(err, stdout, stderr){
+			// console.log("--->", cmd);
+			// console.log(stdout);
+			// console.log(stderr);
+			// console.log("<---");
 			cb(err, stdout, stderr);
 		});
 	},
@@ -66,6 +70,39 @@ var rawApi = {
 	},
 	getFileContents: function(file){
 		return fs.readFileSync(this.path+"/"+file, {encoding:"utf8"});
+	},
+	setup: function(git, hooks, file, cb){
+		//git: true, git init
+		//hooks: true, hooks init
+		//file: true, add Hookfile before hooks init
+		var loop = function(){
+			if(git){
+				git = false;
+				this.git.init(next);
+			}
+			else if(file){
+				file = false;
+				this.addHookfile(next);
+			}
+			else if(hooks){
+				hooks = false;
+				this.hooks.init(next);
+			}
+			else{
+				cb();
+			}
+		}.bind(this);
+
+		loop();
+
+		function next(err){
+			if(err){
+				cb(err);
+			}
+			else{
+				loop();
+			}
+		}
 	}
 }
 
@@ -90,5 +127,55 @@ var gitApi = {
 	},
 	rebase: function(end, cb){
 		this.run("git rebase "+end, cb);
+	},
+	__makeAddAndCommitFile: function(name, content, cb){
+		var git = this.git;
+		this.mkfile(name, content, function(err){
+			if(err){
+				cb(err);
+			}
+			else{
+				git.add(".", function(err){
+					if(err){
+						cb(err);
+					}
+					else{
+						git.commit("-m 'in-test'", function(err){
+							cb(err);
+						});
+					}
+				});
+			}
+		});
+	},
+	__setupBranch: function(name, cb){
+		var self = this;
+		self.git.checkout("-b "+name, function(err){
+			if(err){
+				cb(err);
+			}
+			else{
+				self.git.__makeAddAndCommitFile("in-"+name, "for "+name, cb);
+			}
+		});
+	},
+	__setupBranches: function(branches, cb){
+		var self = this;
+		loop(0);
+		function loop(i){
+			if(i==branches.length){
+				cb();
+			}
+			else{
+				self.git.__setupBranch(branches[i], function(err){
+					if(err){
+						cb(err);
+					}
+					else{
+						loop(i+1);
+					}
+				});
+			}
+		}
 	}
 }

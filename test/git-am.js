@@ -1,20 +1,6 @@
 describe("git am, when GHM is in use,", function(){
 	beforeEach(function(done){
-		TEST_SUITE.git.init(function(err){
-			if(err){
-				done(err);
-			}
-			else{
-				TEST_SUITE.addHookfile(function(err){
-					if(err){
-						done(err);
-					}
-					else{
-						TEST_SUITE.hooks.init(done);
-					}
-				});
-			}
-		});
+		TEST_SUITE.setup(true, true, true, done);
 	});
 
 	it("should run applypatch-msg");

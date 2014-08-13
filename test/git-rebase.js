@@ -1,40 +1,13 @@
 describe("git rebase, when GHM is in use,", function(){
 	beforeEach(function(done){
-
-		var handleErrOr = function(next){
-			return function(err){
-				if(err){
-					done(err);
-				}
-				else{
-					next();
-				}
+		TEST_SUITE.setup(true, true, true, function(err){
+			if(err){
+				done(err);
 			}
-		}
-
-		TEST_SUITE.git.init(handleErrOr(function(){
-			TEST_SUITE.addHookfile(handleErrOr(function(){
-				TEST_SUITE.hooks.init(handleErrOr(function(){
-					TEST_SUITE.git.checkout("-b test", handleErrOr(function(){
-						TEST_SUITE.mkfile("in-test", "abc", handleErrOr(function(){
-							TEST_SUITE.git.add(".", handleErrOr(function(){
-								TEST_SUITE.git.commit("-m 'in-test'", handleErrOr(function(){
-									TEST_SUITE.git.checkout("-b master", handleErrOr(function(){
-										TEST_SUITE.mkfile("in-master", "abc", handleErrOr(function(){
-											TEST_SUITE.git.add(".", handleErrOr(function(){
-												TEST_SUITE.git.commit("-m 'in-master'", handleErrOr(function(){
-													done();
-												}));
-											}));
-										}));
-									}));
-								}));
-							}));
-						}));
-					}));
-				}));
-			}));
-		}));
+			else{
+				TEST_SUITE.git.__setupBranches(["test", "master"], done);
+			}
+		});
 	});
 
 	describe("should run", function(){
