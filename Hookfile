@@ -20,6 +20,8 @@ commit-msg:
 
 post-commit:
 	echo '+1 to your daily commits!'
+	node git-hooks/count-commits.js $(date +"%Y-%m-%d")
+	echo 'Wasn't that fun! You should commit more!'
 
 
 pre-rebase:
