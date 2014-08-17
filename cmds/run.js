@@ -12,6 +12,7 @@ function runCommands(commands, i){
 		var cmd = commands[i];
 		runCommand(cmd, function(err){
 			if(err){
+				console.log(cmd);
 				throw err;
 			}
 			else{
