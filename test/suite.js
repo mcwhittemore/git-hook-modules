@@ -128,6 +128,9 @@ var gitApi = {
 	rebase: function(end, cb){
 		this.run("git rebase "+end, cb);
 	},
+	merge: function(end, cb){
+		this.run("git merge "+end, cb);
+	},
 	__makeAddAndCommitFile: function(name, content, cb){
 		var git = this.git;
 		this.mkfile(name, content, function(err){
