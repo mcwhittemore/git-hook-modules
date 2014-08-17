@@ -1,4 +1,4 @@
-describe.only("git-checkout, when GHM is in use,", function(){
+describe("git-checkout, when GHM is in use,", function(){
 
 	beforeEach(function(done){
 		TEST_SUITE.setup(true, true, true, function(err){
