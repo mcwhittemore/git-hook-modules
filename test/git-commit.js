@@ -58,7 +58,45 @@ describe("git commit, when GHM is in use,", function(){
 
 	});
 
-	describe("and there is nothing to be commited", function(){
+	describe("--amend -m 'just an update'", function(){
+
+		var commitOutput = null;
+
+		beforeEach(function(done){
+			TEST_SUITE.git.__makeAddAndCommitFile("test", "test", function(err){
+				TEST_SUITE.git.commit("--amend -m 'just an update'", function(err, stdout, stderr){
+					if(err){
+						done(err);
+					}
+					else{
+						commitOutput = stderr;
+						done();
+					}
+				});
+			});
+		});
+
+		var checkForHookMessage = function(msg){
+			if(commitOutput.indexOf(msg)==-1){
+				throw new Error("Git Hook did not run");
+			}
+		}
+
+		it("should run pre-commit", function(){
+			checkForHookMessage("pre-commit");
+		});
+
+		it("should run post-commit", function(){
+			checkForHookMessage("post-commit");
+		});
+
+		it("should run prepare-commit-msg", function(){
+			checkForHookMessage("prepare-commit-msg");
+		});
+
+		it("should run commit-msg", function(){
+			checkForHookMessage("commit-msg");
+		});
 
 	});
 
