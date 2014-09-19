@@ -35,14 +35,6 @@ post-merge:
 	go run it-works-with.go
 ```
 
-## More on the CLI Tool
-
-* `git hooks [hook-name] --ORDER`
-* `git hooks [hook-name] add [cmd]`
-* `git hooks [hook-name] remove [cmd]`
-* `git hooks run [hook-name]`
-* `git hooks [hook-name] install [tar-file]`
-
 
 
 
