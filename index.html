@@ -3,8 +3,77 @@
 <head>
 	<meta charset="utf-8">
 	<title>Git Hook Modules</title>
+	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+	<!--[if lt IE 9]>
+	<script src="dist/html5shiv.js"></script>
+	<![endif]-->
 </head>
 <body>
 <p>Hello World!</p>
+<header id="header">
+	<h1>Git Hook Modules</h1>
+	<nav>
+		<ul>
+			<li><a href="#about">About</a></li>
+			<li><a href="#installation">Installation</a></li>
+			<li><a href="#use">Use</a></li>
+			<li><a href="#examples">Examples</a></li>
+		</ul>
+	</nav>
+	<main>
+		<section id="about">
+			<h1>About Git Hook Modules</h1>
+			<p>A simple git hook module system.</p>
+		</section>
+		<section id="installation">
+			<h1>How to Install</h1>
+			<h2>Install CLI Tool</h2>
+			<code>npm install -g git-hook-modules</code>
+			<p>then...</p>
+			<h3>Add to a repo</h3>
+			<code>git hooks init</code>
+			<p>This will update all your git hook files to use the <code>git-hook-modules</code> system and, if it's not present, create a <code>Hookfile</code>.</p>
+			<span>or...</span>
+			<h3>Add to a Node.JS Project</h3>
+			<code>npm install git-hook-modules --save-dev</code>
+			<p>This will run the same process as <code>git hooks init</code>. It will also add <code>git-hook-modules</code> to your Node project so it will be auto installed when someone run <code>npm install</code>.</p>
+		</section>
+		<section id="use">
+			<h1>How to Use</h1>
+			<h2>Loop a script into the git hook process</h2>
+			<p>Add an executable command to the Hookfile under the hook you want to trigger the script. The order of these scripts determins the order that they are run when the hook is trigged by git. On hooks that can be stopped by a non-zero exit a non-zero stop will exicution stream.</p>
+			<pre>
+				<code>
+					post-commit:
+					    echo "first command of a post-commit hook"
+					    echo "secound command of a post-commit hook"
+					    node third-command.js
+
+					pre-commit:
+					    python it-works-with.py
+
+					post-merge:
+					    go run it-works-with.go
+				</code>
+			</pre>
+			<h2>More on the CLI Tool</h2>
+			<ul>
+				<li><code>git hooks [hook-name] --ORDER</code></li>
+				<li><code>git hooks [hook-name] add [cmd]</code></li>
+				<li><code>git hooks [hook-name] remove [cmd]</code></li>
+				<li><code>git hooks run [hook-name]</code></li>
+				<li><code>git hooks [hook-name] install [tar-file]</code></li>
+			</ul>
+		</section>
+		<section id="examples">
+			<h1>Useful Examples</h1>
+			<p>No examples have been made yet! Feel free to make a pull request if you have put Git Hook Modules to good use.</p>
+		</section>
+	</main>
+	<footer>
+		<p>Git Hook Modules is released under an <a href="LICENSE.md">MIT License</a>.
+	</footer>
+</header>
+
 </body>
 </html>
