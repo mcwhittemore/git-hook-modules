@@ -8,7 +8,8 @@ var path = require("path");
 
 var hooksInit = require("../cmds/init");
 
-var HOOK_CMD = "node "+path.join(__dirname, "../bin/git-hooks run");
+var INIT_CMD = "node "+path.join(__dirname, "../bin/git-hooks run");
+var LIST_CMD = "node "+path.join(__dirname, "../bin/git-hooks list");
 
 module.exports = function(cb){
 
@@ -39,7 +40,7 @@ module.exports = function(cb){
 				api.hooks[hooks[i]] = hooksApi[hooks[i]].bind(api);
 			}
 
-			api.hooks.init.cmd = HOOK_CMD;
+			api.hooks.init.cmd = INIT_CMD;
 
 			cb(null, api);
 		}
@@ -108,7 +109,10 @@ var rawApi = {
 
 var hooksApi = {
 	init: function(cb){
-		hooksInit(this.path, HOOK_CMD, cb);
+		hooksInit(this.path, INIT_CMD, cb);
+	},
+	list: function(hook, cb){
+		require("child_process").exec(LIST_CMD+" "+hook, cb);
 	}
 }
 
