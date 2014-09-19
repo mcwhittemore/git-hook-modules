@@ -15,6 +15,12 @@ else if(cmd==="run"){
 	var run = require("../cmds/run");
 	run(hook, args);
 }
+else if(cmd==="add"){
+	var hook = process.argv[3];
+	var args = process.argv.slice(4);
+	var add = require("../cmds/add");
+	add(hook, args);
+}
 else if(cmd==="list"){
 	var hook = process.argv[3];
 	var args = process.argv.slice(4);
