@@ -10,7 +10,7 @@ A simple git hook module system.
 
 `git hooks init`
 
-This will update all your git hook files to use the `git-hook-modules` system and, if it's not present, create a `Hookfile`.
+This will update all your git hook files to use the `git-hook-modules` system and, if it's not present, create a `.githooks`.
 
 ## Add to a Node.JS Project
 
@@ -20,7 +20,7 @@ This will run the same process as `git hooks init`. It will also add `git-hook-m
 
 ## Loop a script into the git hook process
 
-Add an executable command to the `Hookfile` under the hook you want to trigger the script. The order of these scripts determins the order that they are run when the hook is trigged by git. On [hooks that can be stopped by a non-zero exit]() a non-zero stop will exicution stream.
+Add an executable command to the `.githooks` under the hook you want to trigger the script. The order of these scripts determins the order that they are run when the hook is trigged by git. On [hooks that can be stopped by a non-zero exit]() a non-zero stop will exicution stream.
 
 ```
 post-commit:

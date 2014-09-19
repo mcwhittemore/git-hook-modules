@@ -38,7 +38,7 @@ describe("git hooks init", function(){
 
 	describe("should run if there is a .git/hooks folder", function(){
 		
-		describe("and the Hookfile is present it should", function(){
+		describe("and the .githooks is present it should", function(){
 			beforeEach(function(done){
 				TEST_SUITE.git.init(function(err){
 					if(err){
@@ -57,15 +57,15 @@ describe("git hooks init", function(){
 				});
 			});
 
-			it("not create a new Hookfile", function(){
-				var liveHook = TEST_SUITE.getFileContents("Hookfile");
-				var HookfilePath = path.join(__dirname, "./Hookfile");
+			it("not create a new .githooks", function(){
+				var liveHook = TEST_SUITE.getFileContents(".githooks");
+				var HookfilePath = path.join(__dirname, "./.githooks");
 				var content = fs.readFileSync(HookfilePath,{encoding:"utf8"});
 				liveHook.should.equal(content+"\n");
 			});
 		});
 
-		describe("and the Hookfile is NOT present it should", function(){
+		describe("and the .githooks is NOT present it should", function(){
 
 			beforeEach(function(done){
 				TEST_SUITE.git.init(function(err){
@@ -80,10 +80,10 @@ describe("git hooks init", function(){
 
 			var possibleHooks = require("../lib/possible-hooks");
 
-			it("create a Hookfile", function(){
-				var repoFileContent = TEST_SUITE.getFileContents("Hookfile");
+			it("create a .githooks", function(){
+				var repoFileContent = TEST_SUITE.getFileContents(".githooks");
 
-				var baseFile = path.join(__dirname, "../base-files/Hookfile");
+				var baseFile = path.join(__dirname, "../base-files/.githooks");
 				var baseFileContent = fs.readFileSync(baseFile, {encoding:"utf8"});
 
 				repoFileContent.should.equal(baseFileContent);

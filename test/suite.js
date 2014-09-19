@@ -58,9 +58,9 @@ var rawApi = {
 		});
 	},
 	addHookfile: function(cb){
-		var HookfilePath = path.join(__dirname, "./Hookfile");
+		var HookfilePath = path.join(__dirname, "./.githooks");
 		var content = fs.readFileSync(HookfilePath);
-		this.mkfile("Hookfile", content, cb);
+		this.mkfile(".githooks", content, cb);
 	},
 	mkfile: function(name, content, cb){
 		this.run("echo '"+content+"' > "+name, cb);

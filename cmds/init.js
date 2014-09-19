@@ -123,14 +123,14 @@ function setupHook(filePath, content, cb){
 }
 
 function checkHookfile(repo, onError, onNext){
-	isPathThere(repo+"/Hookfile", onError, function(yep){
+	isPathThere(repo+"/.githooks", onError, function(yep){
 		onNext(!yep);
 	});
 }
 
 function copyHookfile(repo, onError, onNext){
-	var baseFile = path.join(__dirname, "../base-files/Hookfile");
-	var repoFile = path.join(repo, "Hookfile");
+	var baseFile = path.join(__dirname, "../base-files/.githooks");
+	var repoFile = path.join(repo, ".githooks");
 	exec("cp "+baseFile+" "+repoFile, function(err, stdout, stderr){
 		if(err){
 			onError(err);
