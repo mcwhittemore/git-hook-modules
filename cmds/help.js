@@ -7,6 +7,9 @@ Commands:
 	run: `git hooks run <hook>`
 		runs the hook commands for the provided hook.
 		
+	list: `git hooks list <hook>`
+		echoes the hook commands for the provided hook.
+		
 	init: `git hooks init`
 		forwards all git hooks to the git hooks run and creates a Hookfile if one is not present
 
