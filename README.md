@@ -1,5 +1,7 @@
 # Git Hook Modules
 
+**Deprecated**: Check out [husky](https://github.com/typicode/husky) if is you want a module system for git hooks.
+
 A simple git hook module system.
 
 ## Install CLI Tool
